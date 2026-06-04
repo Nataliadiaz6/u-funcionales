@@ -1,41 +1,48 @@
-import entidades.Persona;
-
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 public class Main {
     public static void main(String[] args) {
-        List<Persona> personas = List.of(
-                new Persona("Ana", 25),
-                new Persona("Luis", 17),
-                new Persona("María", 25),
-                new Persona("Carlos", 30),
-                new Persona("Elena", 17)
-        );
 
-        //Ejemplo 1 – groupingBy()
+        //Ejemplo 1 – Creación de Optional
+        Optional<String> opt1 = Optional.of("Hola");
+        Optional<String> opt2 = Optional.ofNullable(null);
+        Optional<String> opt3 = Optional.empty();
 
-        Map<Integer, List<Persona>> porEdad = personas.stream()
-                .collect(Collectors.groupingBy(p -> p.getEdad()));
+        System.out.println(opt1);
+        System.out.println(opt2);
+        System.out.println(opt3);
 
-        System.out.println(porEdad);
+        //Ejemplo 2 – Uso básico (isPresent, ifPresent, orElse)
+        Optional<String> nombre = Optional.ofNullable(null);
 
+        // Forma clásica con isPresent
+        if (nombre.isPresent()) {
+            System.out.println("El nombre es: " + nombre.get());
+        } else {
+            System.out.println("No hay nombre");
+        }
 
-        //Ejemplo 2 – partitioningBy()
+        // Forma funcional con orElse
+        System.out.println(nombre.orElse("Desconocido"));
 
-        Map<Boolean, List<Persona>> porMayoriaEdad = personas.stream()
-                .collect(Collectors.partitioningBy(p -> p.getEdad() >= 18));
-
-        System.out.println(porMayoriaEdad);
-
-        //Ejemplo 3 – joining()
-
-        String nombres = personas.stream()
-                .map(Persona::getNombre)
-                .collect(Collectors.joining(", "));
-
-        System.out.println(nombres);
+        // Forma más elegante con ifPresent
+        nombre.ifPresent(n -> System.out.println("El nombre es: " + n));
         
+
+        //Ejemplo 3 – Búsqueda en una lista con Optional
+
+        List<String> nombres = List.of( "Luis", "María");
+
+        Optional<String> encontrado = nombres.stream()
+                .filter(n -> n.equals("Ana"))
+                .findFirst();
+
+        System.out.println(encontrado.orElse("No encontrado"));
+
+        //Ejemplo 4 – Optional con orElseThrow
+
+        String resultado = encontrado.orElseThrow(() -> new RuntimeException("No se encontró el valor"));
+        System.out.println(resultado);
     }
 }
