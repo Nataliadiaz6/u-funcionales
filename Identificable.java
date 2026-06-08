@@ -1,7 +1,6 @@
-package com.tup.programacion3.enums;
+package com.tup.programacion3.interfaces;
 
-public enum FormaPago {
-    EFECTIVO,
-    TARJETA,
-    TRANSFERENCIA
+public interface Identificable {
+
+    Long getId();
 }
